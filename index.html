@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seher Nur - Where Flowers Meet Fantasy</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display & Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* Custom Styles */
+        :root {
+            --pink: #f472b6; /* Brighter Pink */
+            --purple: #a78bfa; /* Brighter Purple */
+            --coral: #ef4444; /* Brighter Coral */
+            --charcoal: #333333;
+            --bg-light: #fffbff; /* Slightly pinkish white */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--charcoal);
+            background-color: var(--bg-light);
+            position: relative;
+            z-index: 1;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--pink), var(--purple), var(--coral));
+            background-size: 400% 400%;
+            animation: background-pan 20s ease infinite alternate;
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='black'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20-5-5-5 5L11 0zm20 11l20 5-5-5-5 5-5-20zm20 20l5 20-5-5-5 5 20-5zM0 31l20 5-5-5-5 5-5-20zm40 40l5 20-5-5-5 5 20-5z'/%3E%3C/g%3E%3C/svg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='black'%3E%3Cpath fill-rule='evenodd' d='M11 0l5 20-5-5-5 5L11 0zm20 11l20 5-5-5-5 5-5-20zm20 20l5 20-5-5-5 5 20-5zM0 31l20 5-5-5-5 5-5-20zm40 40l5 20-5-5-5 5 20-5z'/%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+            opacity: 0.15;
+        }
+
+        /* Hide custom cursor on touch devices */
+        @media (hover: none) and (pointer: coarse) {
+            #cursor-dot, #cursor-outline {
+                display: none;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+        @media (hover: hover) and (pointer: fine) {
+            body {
+                cursor: none;
+            }
+        }
+
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: brightness(0.7) opacity(0.8);
+        }
+        
+        .logo-gradient {
+            background: linear-gradient(45deg, var(--coral), var(--purple), var(--pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradient-text-animation 5s linear infinite;
+        }
+
+        @keyframes gradient-text-animation {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .btn-primary {
+            background-color: var(--coral);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(226, 85, 85, 0.3);
+        }
+        .highlight-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(209, 178, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .marquee-content {
+            animation: marquee 80s linear infinite;
+        }
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+        .timeline-item::before {
+            content: '🌸';
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+            text-align: center;
+            color: var(--coral);
+        }
+        .timeline-line {
+            position: absolute;
+            left: -24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--pink), var(--purple));
+        }
+        
+        /* --- Cursor Effects --- */
+        #cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background-color: var(--coral);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        #cursor-outline {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--purple);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease-out, width 0.2s ease-out, height 0.2s ease-out;
+            transform: translate(-50%, -50%);
+        }
+        #cursor-outline.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            background-color: rgba(248, 193, 217, 0.5);
+        }
+        .particle {
+            position: fixed;
+            background: var(--pink);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+        }
+        
+        /* Adding a subtle overlay on sections for readability */
+        .section-bg {
+            position: relative;
+            background-color: rgba(255, 251, 255, 0.6); /* Semi-transparent overlay to make text readable */
+        }
+        
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Cursor Effects -->
+    <div id="cursor-dot" class="hidden md:block"></div>
+    <div id="cursor-outline" class="hidden md:block"></div>
+
+    <!-- Header -->
+    <header id="main-header" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#home" class="text-3xl font-bold text-charcoal logo-gradient">Seher Nur</a>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-pink-500 transition font-medium">Home</a>
+                <a href="#projects" class="text-gray-700 hover:text-pink-500 transition font-medium">Projects</a>
+                <a href="#gallery" class="text-gray-700 hover:text-pink-500 transition font-medium">Gallery</a>
+                <a href="#about" class="text-gray-700 hover:text-pink-500 transition font-medium">About</a>
+                <a href="#contact" class="btn-primary text-white font-bold py-2 px-6 rounded-full">Contact</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-charcoal">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-white/95 z-40">
+        <div class="flex flex-col items-center justify-center h-full space-y-8">
+            <a href="#home" class="mobile-menu-link text-2xl text-charcoal hover:text-pink-500 transition">Home</a>
+            <a href="#projects" class="mobile-menu-link text-2xl text-charcoal hover:text-pink-500 transition">Projects</a>
+            <a href="#gallery" class="mobile-menu-link text-2xl text-charcoal hover:text-pink-500 transition">Gallery</a>
+            <a href="#about" class="mobile-menu-link text-2xl text-charcoal hover:text-pink-500 transition">About</a>
+            <a href="#contact" class="btn-primary text-white font-bold py-3 px-8 rounded-full text-lg">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+             <video autoplay loop muted playsinline class="hero-video-bg" poster="https://placehold.co/1920x1080/E2BBD1/E2BBD1">
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-hands-of-a-woman-making-a-bouquet-of-flowers-4138-large.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-black opacity-20"></div>
+            <div class="z-10 px-4 text-white">
+                <h1 id="hero-headline" class="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-4" style="text-shadow: 2px 2px 10px rgba(0,0,0,0.3);">
+                    Where Flowers Meet Fantasy
+                </h1>
+                <p id="hero-subheading" class="text-lg md:text-xl max-w-2xl mx-auto mb-8">The Handcrafted Adornments of Seher Nur</p>
+                <div id="hero-ctas">
+                    <a href="#gallery" class="btn-primary text-white font-bold py-3 px-10 rounded-full text-lg">View Creations</a>
+                </div>
+            </div>
+             <!-- Wave Divider -->
+            <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none" style="transform: translateY(1px);">
+                <svg viewBox="0 0 1440 120" xmlns="http://www.w3.org/2000/svg" class="relative block w-full h-[60px] md:h-[120px]">
+                    <path d="M0,64L80,80C160,96,320,128,480,128C640,128,800,96,960,85.3C1120,75,1280,85,1360,90.7L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#fffbff" fill-opacity="0.6"></path>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Featured Highlights Section -->
+        <section id="highlights" class="py-16 sm:py-24 section-bg">
+            <div class="container mx-auto px-6 relative z-10">
+                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Highlight 1 -->
+                    <div class="highlight-card p-6 md:p-8 rounded-2xl text-center">
+                         <h3 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--coral)]">2x</h3>
+                         <p class="text-base md:text-lg font-semibold text-charcoal">Revenue for a Turkish lifestyle brand after our collaboration.</p>
+                    </div>
+                     <!-- Highlight 2 -->
+                    <div class="highlight-card p-6 md:p-8 rounded-2xl text-center">
+                         <h3 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--purple)]">700+</h3>
+                         <p class="text-base md:text-lg font-semibold text-charcoal">Unique, handcrafted adornments designed for exclusive collections.</p>
+                    </div>
+                     <!-- Highlight 3 -->
+                    <div class="highlight-card p-6 md:p-8 rounded-2xl text-center">
+                         <h3 class="text-3xl md:text-4xl font-bold mb-3 text-[var(--pink)]">100%</h3>
+                         <p class="text-base md:text-lg font-semibold text-charcoal">Handmade transformation, from first bloom to final design.</p>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Talent Description Section -->
+        <section id="talent" class="py-16 sm:py-24 section-bg">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    <div class="talent-image">
+                        <img src="https://placehold.co/600x700/D1B2FF/FFFFFF?text=Artistry" alt="Artistic process" class="rounded-2xl shadow-2xl w-full h-full object-cover">
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <h2 class="text-4xl md:text-5xl font-bold text-charcoal mb-6">The Art of Adornment</h2>
+                        <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
+                            Each piece is a testament to patience and passion. Seher Nur transforms delicate beads and blossoms into wearable magic, weaving together color, texture, and light. It's a slow, intentional process where every detail is considered, resulting in adornments that are not just worn, but felt.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery / Lookbook Section -->
+        <section id="gallery" class="py-16 sm:py-24 section-bg overflow-hidden">
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h2 class="text-4xl md:text-5xl font-bold text-charcoal mb-12">Lookbook</h2>
+            </div>
+            <div class="relative w-full flex overflow-hidden">
+                <div class="flex marquee-content">
+                    <!-- Repeat content for seamless loop -->
+                    <div class="flex space-x-6 px-3">
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/F8C1D9/333333?text=Design+1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 1">
+                        </div>
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/D1B2FF/333333?text=Design+2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 2">
+                        </div>
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/E25555/FFFFFF?text=Design+3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 3">
+                        </div>
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/333333/FDFDFD?text=Design+4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 4">
+                        </div>
+                         <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/F8C1D9/333333?text=Design+5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 5">
+                        </div>
+                    </div>
+                     <div class="flex space-x-6 px-3">
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/F8C1D9/333333?text=Design+1" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 1">
+                        </div>
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/D1B2FF/333333?text=Design+2" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 2">
+                        </div>
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/E25555/FFFFFF?text=Design+3" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 3">
+                        </div>
+                        <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/333333/FDFDFD?text=Design+4" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 4">
+                        </div>
+                         <div class="work-card w-64 h-80 md:w-80 md:h-96 flex-shrink-0 rounded-2xl overflow-hidden relative group">
+                            <img src="https://placehold.co/400x500/F8C1D9/333333?text=Design+5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Lookbook Image 5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects / Collaborations Section -->
+        <section id="projects" class="py-16 sm:py-24 section-bg">
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-12 md:mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-charcoal mb-4">Collaborations</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Mini case studies of top commercial accessory designs.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="project-card bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <p class="font-semibold text-[var(--purple)] mb-2">💐 Turkish Apparel Co.</p>
+                        <h3 class="text-xl md:text-2xl font-bold mb-3">Objective: Revenue Boost</h3>
+                        <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden mb-4">
+                            <img src="https://placehold.co/400x300/D1B2FF/FFFFFF?text=Project+A" class="w-full h-full object-cover" alt="Project A">
+                        </div>
+                        <p class="font-bold text-lg md:text-xl text-[var(--coral)]">+175% revenue in 6 months</p>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <p class="font-semibold text-[var(--pink)] mb-2">💐 Couture Line</p>
+                        <h3 class="text-xl md:text-2xl font-bold mb-3">Objective: Styling Collection</h3>
+                         <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden mb-4">
+                            <img src="https://placehold.co/400x300/F8C1D9/333333?text=Project+B" class="w-full h-full object-cover" alt="Project B">
+                        </div>
+                        <p class="font-bold text-lg md:text-xl text-[var(--coral)]">Featured in Vogue Turkey</p>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="project-card bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+                        <p class="font-semibold text-[var(--coral)] mb-2">💐 Boutique Studio</p>
+                        <h3 class="text-xl md:text-2xl font-bold mb-3">Objective: Runway Prep</h3>
+                         <div class="aspect-w-4 aspect-h-3 rounded-lg overflow-hidden mb-4">
+                            <img src="https://placehold.co/400x300/E25555/FFFFFF?text=Project+C" class="w-full h-full object-cover" alt="Project C">
+                        </div>
+                        <p class="font-bold text-lg md:text-xl text-[#333]">Sold out collection in 24 hours</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 sm:py-24 section-bg">
+            <div class="container mx-auto px-6 relative z-10">
+                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    <div class="text-center lg:text-left">
+                        <h2 class="text-4xl md:text-5xl font-bold text-charcoal mb-6">Behind the Craft</h2>
+                        <p class="text-lg md:text-xl text-gray-700 leading-relaxed">
+                            “For 7 years, Seher Nur has designed wearable stories — one flower at a time. 
+                            <br><br>
+                            No face, no spotlight. Just the work — handcrafted, daring, and driven by detail.”
+                        </p>
+                    </div>
+                    <div class="max-w-md mx-auto lg:mx-0">
+                        <div class="relative pl-12">
+                            <div class="timeline-line"></div>
+                            <div class="timeline-item mb-12 relative">
+                                <h3 class="text-2xl font-bold text-charcoal mb-1">Year 1: First Bloom</h3>
+                                <p class="text-gray-600">The journey began with a single petal and a passion for nature's art.</p>
+                            </div>
+                            <div class="timeline-item mb-12 relative">
+                                <h3 class="text-2xl font-bold text-charcoal mb-1">Year 3: Major Collaboration</h3>
+                                <p class="text-gray-600">Partnered with a leading lifestyle brand to bring designs to a wider audience.</p>
+                            </div>
+                            <div class="timeline-item relative">
+                                <h3 class="text-2xl font-bold text-charcoal mb-1">Year 7: Global Reach</h3>
+                                <p class="text-gray-600">Designs featured by major Turkish brands, reaching a global market.</p>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 sm:py-24 section-bg">
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h2 class="text-4xl md:text-5xl font-bold text-charcoal mb-4">Connect</h2>
+                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-12">For collaborations or press inquiries only.</p>
+                <div class="max-w-lg mx-auto">
+                     <form action="#" method="POST">
+                        <div class="mb-6">
+                            <input type="text" id="name" name="name" class="form-input w-full bg-white/80 border-2 border-gray-200 rounded-lg py-3 px-4 text-charcoal focus:outline-none focus:border-pink-300 transition-colors" placeholder="Your Name">
+                        </div>
+                        <div class="mb-6">
+                            <input type="email" id="email" name="email" class="form-input w-full bg-white/80 border-2 border-gray-200 rounded-lg py-3 px-4 text-charcoal focus:outline-none focus:border-pink-300 transition-colors" placeholder="Your Email">
+                        </div>
+                        <div class="mb-6">
+                            <textarea id="message" name="message" rows="4" class="form-input w-full bg-white/80 border-2 border-gray-200 rounded-lg py-3 px-4 text-charcoal focus:outline-none focus:border-pink-300 transition-colors" placeholder="Your Message"></textarea>
+                        </div>
+                        <button type="submit" class="w-full btn-primary text-white font-bold py-3 px-8 rounded-lg text-lg">Send Inquiry</button>
+                    </form>
+                    <div class="mt-8">
+                        <a href="#" class="text-gray-500 hover:text-[var(--coral)] transition-colors">
+                            <svg class="w-8 h-8 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-8 section-bg">
+        <div class="container mx-auto px-6 text-center text-gray-500 relative z-10">
+            <p class="mb-4">&copy; 2024 Seher Nur. All Rights Reserved.</p>
+            <p>Handcrafted Digital Presence</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Header Scroll Effect ---
+        const header = document.getElementById('main-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-white/80', 'backdrop-blur-sm', 'shadow-md');
+            } else {
+                header.classList.remove('bg-white/80', 'backdrop-blur-sm', 'shadow-md');
+            }
+        });
+
+        // --- Mobile Menu ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
+        const toggleMenu = () => mobileMenu.classList.toggle('hidden');
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileMenuLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --- Hero Animations ---
+        gsap.from("#hero-headline", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.3 });
+        gsap.from("#hero-subheading", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.5 });
+        gsap.from("#hero-ctas", { duration: 1.2, y: 50, opacity: 0, ease: "power3.out", delay: 0.7 });
+        
+        // --- General Section Reveal Animations ---
+        const animateUp = (element) => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none none"
+                },
+                y: 60,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out",
+                stagger: 0.2
+            });
+        };
+
+        document.querySelectorAll('#highlights .highlight-card').forEach(animateUp);
+        document.querySelectorAll('#talent h2, #talent p, #talent .talent-image').forEach(animateUp);
+        document.querySelectorAll('#gallery h2').forEach(animateUp);
+        document.querySelectorAll('#projects h2, #projects p, .project-card').forEach(animateUp);
+        document.querySelectorAll('#about h2, #about p, .timeline-item').forEach(animateUp);
+        document.querySelectorAll('#contact h2, #contact p, #contact form').forEach(animateUp);
+
+        // --- Cursor and Particle Effects ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+
+        if (cursorDot && cursorOutline) {
+            window.addEventListener('mousemove', e => {
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                gsap.to(cursorDot, { duration: 0.1, x: x, y: y });
+                gsap.to(cursorOutline, { duration: 0.3, x: x, y: y, ease: 'power2.out' });
+            });
+
+            document.querySelectorAll('a, button, .work-card, .highlight-card, .project-card, .form-input').forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+
+            document.addEventListener('click', (e) => {
+                createParticles(e.clientX, e.clientY);
+            });
+        }
+        
+        function createParticles(x, y) {
+            const particleCount = 20;
+            const colors = ['#f472b6', '#a78bfa', '#ef4444', '#ffffff'];
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                document.body.appendChild(particle);
+
+                const size = Math.random() * 10 + 5;
+                const destinationX = (Math.random() - 0.5) * 300;
+                const destinationY = (Math.random() - 0.5) * 300;
+                const rotation = Math.random() * 520;
+                const delay = Math.random() * 0.2;
+
+                gsap.set(particle, {
+                    x: x,
+                    y: y,
+                    width: size,
+                    height: size,
+                    backgroundColor: colors[Math.floor(Math.random() * colors.length)]
+                });
+
+                gsap.to(particle, {
+                    duration: Math.random() * 1.5 + 0.5,
+                    x: x + destinationX,
+                    y: y + destinationY,
+                    opacity: 0,
+                    rotation: rotation,
+                    ease: "power3.out",
+                    delay: delay,
+                    onComplete: () => {
+                        particle.remove();
+                    }
+                });
+            }
+        }
+    });
+    </script>
+</body>
+</html>
+
